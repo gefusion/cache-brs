@@ -1,0 +1,13 @@
+	    		<div id="userProfile" class="tab-pane fade container">
+		    		<h4>Ваш профиль</h4>
+		    		<div class="user-info">
+		    			<h5>
+		    				Пользователь: <span>#($username)#</span>
+		    			</h5>
+		    			<span></span>
+		    			<button data-toggle="modal" data-target="#personModal" class="btn btn-default">Редактировать личные данные</a>
+		    			<button class="btn btn-default">Сменить пароль</button>
+		    			<p><br>Вы можете перезайти под другой ролью, нажав на кнопку ниже.</p>
+		    			<button class="btn btn-default">Перезайти</button>
+		    		</div>
+	    		</div>
