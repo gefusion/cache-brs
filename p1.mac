@@ -1,5 +1,0 @@
-ROUTINE p1
-	set fc=##class(Data.Faculty).%OpenId(3)
-	set person=##class(Users.Person).%OpenId(48)
-	set fc.Dean = person
-	do fc.%Save()
