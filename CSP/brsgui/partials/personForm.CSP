@@ -1,0 +1,61 @@
+				<section>
+		    		<div id="personModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  	  	  	  	  	  	<div class="modal-dialog">
+  	  	  	  	  	  	  	<div class="modal-content">
+  	  	  	  	  	  	  	  	<div class="modal-header">
+  	  	  	  	  	  	  	  	  	<button type="button" onclick="clearForm();" ng-click="" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  	  	  	  	  	  	  	  	  	<h4 ng-show="regPerson">Регистрация нового пользователя</h4>
+  	  	  	  	  	  	  	  	    <h4 ng-show="updPerson">Редактирование пользователя</h4>
+  	  	  	  	  	  	  	    </div>
+     							<div class="container">
+									<div class="modal-body">
+				    					<div class="regMessage"></div>
+			    						<form class="form-horizontal" method="post" role="form">
+			       	 						<div ng-show="regPerson" class="form-group">
+			            						<label class="control-label col-sm-2">Логин</label>
+			            						<div class="col-sm-5">
+			                    					<input onKeyUp="this.value=this.value.toLowerCase()" id="Username" ng-model="Username" type="text" class="form-control item1" required/>
+			            						</div>
+			            					</div>
+			        						<div class="form-group">
+			            						<label class="control-label col-sm-2">Пароль</label>
+			            						<div class="col-sm-5">
+			                    					<input type="password" class="form-control password" required/>
+			            						</div>
+			        						</div>
+			        						<div class="form-group">
+			            						<label class="control-label col-sm-2">Подтвердите пароль</label>
+			            						<div class="col-sm-5">
+			                    					<input type="password" class="form-control password-confirm" required/>
+			            						</div>
+			        						</div>
+			        						<div class="form-group">
+			            						<label class="control-label col-sm-2">Фамилия</label>
+			            						<div class="col-sm-5">
+			             		   					<input id="Surname" ng-model="Surname" type="text" class="form-control item2"/>
+			            						</div>
+			        						</div>
+			        						<div class="form-group">
+			            						<label class="control-label col-sm-2">Имя</label>
+			            						<div class="col-sm-5">
+			                						<input id="Name" ng-model="Name" type="text" class="form-control item3"/>
+			            						</div>
+			        						</div>
+			        						<div class="form-group">
+			            						<label class="control-label col-sm-2">Отчество</label>
+			            						<div class="col-sm-5">
+			             		   					<input id="Patronymic" ng-model="Patronymic" type="text" class="form-control item4"/>
+			            						</div>
+			        						</div>
+			    						</form>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<input ng-click="regPerson()" type="submit" ng-show="regPerson" class="btn btn-success" value="Создать">
+					    			<input ng-click="updPerson()" type="submit" ng-show="updPerson" class="btn btn-primary" value="Изменить">
+				        			<button type="button" onclick="clearForm();" ng-click="" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+        						</div>
+        					</div>
+        				</div>
+	        		</div>
+	        	</section>

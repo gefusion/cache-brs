@@ -1,0 +1,135 @@
+	<html>
+	<head>
+	<title>	Страница студента </title>
+		<link rel="stylesheet" type="text/css" href="/brsgui/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/brsgui/css/custom.css">
+		<link rel="stylesheet" type="text/css" href="/brsgui/css/font-awesome.min.css">
+	</head>
+	<body ng-controller="ctrl" ng-load="create=false;update=false;delete=false">	
+		<div class="container-fluid">
+			<input ng-model="student" name="student" type="hidden" value="#($username)#"/>
+			
+	        <header class="ng-isolate-scope">
+	        	<nav class="navbar navbar-default">
+					<div class="navbar-header">
+						<a class="navbar-brand ng-binding">Страница студента</a>
+					</div>
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li id="first" class="active"><a href="#subjects-and-marks">Просмотр предметов и баллов</a></li>
+							<li id="second"	class=""><a href="#("/brs/logout")#">Выйти</a></li>
+	      				</ul>
+	      				<h5 class="user-info">
+	 					Пользователь: <div style="display:inline;" id="user"></div><br>
+						</h5>
+	      			</div>
+	    	</header>
+	    	<div ng-hide="dataList">
+	    		<div ng-hide="facultiesList" class="container">
+	    			<article><h3>Список предметов и баллов</h3></article>
+	    			<div class="regMessage"></div>
+	    				<p ng-show="summary.length == 0">Нет данных для отображения</p>
+	    				<section ng-hide="summary.length == 0">
+	            			<ui-grid source="summary">
+	                			<column name="Subject" title="Предмет" sortable="true"></column>
+	                			<column name="AcademicYear" title="Учебный год" sortable="true"></column>
+	                			<column name="Semester" title="Семестр" sortable="true"></column>
+	                			<column name="Attendance1" title="Посещаемость 1" sortable="true"></column>
+	                			<column name="SRS1" title="СРС 1" sortable="true"></column>
+	                			<column name="ModalControl1" title="Рубежный контроль 1" sortable="true"></column>
+	                			<column name="Attendance2" title="Посещаемость 2" sortable="true"></column>
+	                			<column name="SRS2" title="СРС 2" sortable="true"></column>
+	                			<column name="ModalControl2" title="Рубежный контроль 2" sortable="true"></column>
+	                			<!-- in case -->
+	                			<!--<column name="Summary" title="Итого" sortable="true"></column>-->
+	            			</ui-grid>
+	        			</section>
+	    		</div>
+	    	</div>
+	    </div>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
+	<script type="text/javascript" src="/brsgui/js/ui-source.js"></script>
+	<script type="text/javascript" src="/brsgui/js/ui-grid.js"></script>
+	<script type="text/javascript">
+	
+	function summarize(att1, att2, srs1, srs2, mctrl1, mctrl2){
+		var count=6;
+		if(att1==""){ att1=0; count--; }
+		if(srs1==""){ srs1=0; count--; }
+		if(mctrl1==""){	mctrl1=0; count--; }
+		if(att2==""){ att2=0; count--; }
+		if(srs2==""){ srs2=0; count--; }
+		if(mctrl2==""){	mctrl2=0; count--; }
+		console.log(att1, att2, srs1, srs2, mctrl1, mctrl2);
+		if (count==0) return "";
+		else return ((att1 + att2 + parseInt(srs1) + parseInt(srs2) + mctrl1 + mctrl2)/6).toFixed();
+	}
+	
+	var global;
+	// Setting ng-app and adding table realization
+	angular.element(document).ready(function() {
+	            angular.bootstrap(document, ['UiGridModule', 'UiSourceModule']);
+	        });
+	// Main controller init
+	function ctrl($scope,$http) {
+	   var $user = document.getElementsByTagName("input").student.value;
+	   var url = "http://localhost:57772/brs/form/objects/Data.Mark/brs?filter=StudentSubject->Student->Username eq "+$user;
+	   //var userInfo = "http://";
+	   $http.get(url)
+	   .success(function(data) {
+		   console.log(data);
+	        $scope.summary = data.children;
+	        console.log($scope.summary);
+	        $('#user').text($scope.summary["0"].Surname+' '+$scope.summary["0"].Name+' '+$scope.summary["0"].Patronymic);
+	   }).error(function(data, status) {
+	       alert("["+status+"]   Ошибка при загрузки пользователей!["+data+"]");
+	   });
+	}
+
+	// Active rows in table realization
+	$(".grid").ready(function(){
+		/*
+	$(".grid tbody").on("click", "tr", function(){
+		var that = $(this);
+	    var currentRow = that[0].cells[0].innerText;
+	    var Id = global["'"+currentRow+"'"];
+	    console.log(Id);
+	    localStorage.setItem('Id', Id);
+	    $(this).addClass('active').siblings().removeClass('active');
+	    */
+	    var table = $(".grid");
+	    console.log("dlina " + table[0].rows.length);
+	    var lines;
+	    summ = 0;
+	    for (var i=2;i<table[0].rows.length+2;i++){
+	    	lines = document.querySelectorAll("tr"); 
+	    }
+	    console.log(lines);
+		for (var i = 1; i < lines.length; i++) {
+  			summ += parseInt(lines[i].querySelectorAll("td")[1].text());
+		}
+		console.log("Summ "+summ)
+		var summary = summ/6;
+		console.log("itog: " + summary);
+/*
+	var table = $(".grid");
+	console.log(table["0"].rows);
+	/*
+	for (var j = 0; i < table["0"].children[1].children["0"].length; i++){
+		for (var i = 0; i < table["0"].children[1].length; i++)
+		{
+			if(i<3)
+			{}
+			else{
+				
+			}
+		}
+	}
+	*/
+	//});
+	});
+	</script>
+
+	</body>
+	</html>

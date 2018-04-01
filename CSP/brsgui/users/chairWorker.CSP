@@ -1,0 +1,310 @@
+	<html>
+	<head>
+	<title>	Страница сотрудника  </title>
+		<link rel="stylesheet" type="text/css" href="/brsgui/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/brsgui/css/custom.css">
+		<link rel="stylesheet" type="text/css" href="/brsgui/css/font-awesome.min.css">
+	</head>
+	<body ng-controller="ctrl">	
+		<div class="container-fluid">
+			<input ng-model="user" name="user" type="hidden" value="Users.ChairWorker"/>
+			<input ng-model="subject" name="subject" type="hidden" value="Data.Subject"/>
+			<input ng-model="student" name="student" type="hidden" value="Users.Student"/>
+			<input ng-model="teacher" name="teacher" type="hidden" value="Users.Teacher"/>
+			
+	        <header class="ng-isolate-scope">
+	        	<nav class="navbar navbar-default">
+					<div class="navbar-header">
+						<a class="navbar-brand ng-binding">Страница сотрудника кафедры</a>
+					</div>
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li id="first" ng-click="dataList=false;subjectList=false;studentList=false;teacherList=false;"  
+							class="active"><a href="#subjects">Управление предметами</a></li>
+							<li id="second" ng-click="dataList=false;subjectList=true;studentList=false;teacherList=true;" 
+							class=""><a href="#teachers">Управление учителями</a></li>
+							<li id="third" 
+							class=""><a href="#("/brs/logout")#">Выйти</a></li>
+	      				</ul>
+	      				<h5 class="user-info">
+	 					Пользователь: #($username)#, кафедра <div style="display: inline;" id="thisChair"></div><br>
+						</h5>
+	      			</div>
+	    	</header>
+	    	<div ng-hide="dataList">
+	    		<div ng-hide="subjectList" class="container">
+	    			<article><h3>Список предметов</h3></article>
+	    			<div class="regMessage"></div>
+	    				<p ng-show="data.length == 0">Нет данных для отображения</p>
+	    				<section ng-hide="data.length == 0">
+	            			<ui-grid source="subjects">
+	                			<column name="Title" title="Название" sortable="true"></column>
+	            			</ui-grid>
+	        			</section>
+	    		</div>
+	    		<div ng-show="studentList" class="container">
+	    			<article><h3>Список группы</h3></article>
+	    			<div class="regMessage"></div>
+	    				<p ng-show="data.length == 0">Нет данных для отображения</p>
+	    				<section onload="actTabs()" ng-hide="data.length == 0">
+	            			<ui-grid source="students">
+	                			<column name="Username" title="Имя пользователя" sortable="true"></column>
+	                			<column name="Name" title="Имя" sortable="true"></column>
+	                			<column name="Surname" title="Фамилия" sortable="true"></column>
+	            			</ui-grid>
+	        			</section>
+	    		</div>
+	    		<div ng-show="teacherList" class="container">
+	    			<article><h3>Список преподавателей</h3></article>
+	    			<div class="regMessage"></div>
+	    				<p ng-show="data.length == 0">Нет данных для отображения</p>
+	    				<section onload="actTabs()" ng-hide="data.length == 0">
+	            			<ui-grid source="teachers">
+	                			<column name="Username" title="Имя пользователя" sortable="true"></column>
+	                			<column name="Name" title="Имя" sortable="true"></column>
+	                			<column name="Surname" title="Фамилия" sortable="true"></column>
+	                			<column name="Patronymic" title="Отчество" sortable="true"></column>
+	            			</ui-grid>
+	        			</section>	
+	    		</div>
+	    		<div ng-controller="userForm" class="container" ng-show="userForm">
+	    			<section>
+						<div class="container">
+	    					<h3 ng-show="rUser">Регистрация нового тестового пользователя</h3>
+	    					<h3 ng-hide="uUser">Изменение тестового пользователя</h3>
+	    					<div class="regMessage"></div>
+	    						<form class="form-horizontal" method="post" role="form">
+	    							<div ng-show="select" class="form-group">
+	            						<label class="control-label col-sm-2">
+	            						Имя изменяемого пользователя</label>
+	            						<div class="col-sm-5">
+	                    					<select name="userist">
+	                    					</select>
+	            						</div>
+	        						</div>
+	       	 						<div ng-hide="username" class="form-group">
+	            						<label class="control-label col-sm-2">Имя пользователя</label>
+	            						<div class="col-sm-5">
+	                    					<input type="login" class="form-control" 
+	                    					name="Username" ng-model="Username" />
+	            						</div>
+	        						</div>
+	        						<div class="form-group">
+	            						<label class="control-label col-sm-2">Имя</label>
+	            						<div class="col-sm-5">
+	                						<input type="text" class="form-control" 
+	                						name="Name" ng-model="Name" />
+	            						</div>
+	        						</div>
+	        						<div class="form-group">
+	            						<label class="control-label col-sm-2">Фамилия</label>
+	            						<div class="col-sm-5">
+	             		   					<input type="text" class="form-control" 
+	             		   					name="Surname" ng-model="Surname" />
+	            						</div>
+	        						</div>
+	         						<div class="form-group"> 
+	       		     					<div class="col-sm-offset-2 col-sm-10">
+	          		  						<input ng-click="regUser()" type="submit" 
+	          		  						ng-show="reg" class="btn btn-default" value="Создать">
+	       		         					<input ng-click="updUser()" type="submit" 
+	       		         					ng-hide="upd" class="btn btn-default" value="Изменить">
+	          		  					</div>
+	        						</div>
+	        						<div class="form-group">
+	           		 					<div class="col-sm-5">
+	           		     					<input type="hidden" class="form-control" 
+	           		     					name="Roles" ng-model="roles" value="Test" />
+	            						</div>
+	        						</div>
+	    						</form>
+						</div>
+	    			</section>  
+	    		</div>
+	    	</div>
+	    </div>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
+	<script type="text/javascript" src="/brsgui/js/ui-source.js"></script>
+	<script type="text/javascript" src="/brsgui/js/ui-grid.js"></script>
+	<script type="text/javascript">
+	var global = new Object();
+
+	// Active tabs realization
+	$('li').click(function (){
+		$("li").removeClass("active");
+		$(this).addClass("active");
+	});
+
+	// Setting ng-app and adding table realization
+	angular.element(document).ready(function() {
+	            angular.bootstrap(document, ['UiGridModule', 'UiSourceModule']);
+	        });
+	// Main controller init
+	function ctrl($scope,$http) {
+		
+		var cls = document.getElementsByTagName("input").user.value;
+	   $http.get("http://localhost:57772/brs/form/objects/" + cls + "/cw?filter=Username eq #($username)#")
+	   .success(function(data) {
+		   $("#thisChair").append(data.children[0].ChairTitle);
+		   localStorage.setItem('UserID', JSON.stringify(data));
+	   }).error(function(data, status) {
+	       alert("["+status+"]   Ошибка при загрузки пользователей!["+data+"]");
+	   });
+		
+	   cls = document.getElementsByTagName("input").subject.value;
+	   var chairID = JSON.parse(localStorage.getItem('UserID'));
+	   chairID = chairID.children["0"].Chair;
+	   $http.get("http://localhost:57772/brs/form/objects/" + cls + "/all?filter=Chair eq "+chairID)
+	   .success(function(data) {
+	        $scope.subjects = data.children;
+	        console.log($scope.subjects);
+	   }).error(function(data, status) {
+	       alert("["+status+"]   Ошибка при загрузки пользователей!["+data+"]");
+	   });
+
+	   cls = document.getElementsByTagName("input").teacher.value;
+	   $http.get("http://localhost:57772/brs/form/objects/" + cls + "/all?filter=Chair eq "+chairID)
+	   .success(function(data) {
+	        $scope.teachers = data.children;
+	        console.log($scope.teachers);
+	   }).error(function(data, status) {
+	       alert("["+status+"]   Ошибка при загрузки пользователей!["+data+"]");
+	   });
+	}
+	// Creating new user
+	function userForm($scope, $http) {
+		
+	   $scope.regUser = function(){ 
+	        	var role = document.getElementsByTagName("input").role.value;
+	        	console.log(role);
+	        	var cls = "Users."+role;
+	        	var url = "http://localhost:57772/brs/form/object/"+cls;
+	            var dataObj = {
+		  			_class : cls,
+	                Username : $scope.Username,
+	                Name : $scope.Name,
+	                Surname : $scope.Surname
+	            }; 
+	            var res = $http.post(url, JSON.stringify(dataObj));
+	            res.success(function(data, status, headers, config) {
+	            var objId = data.Id;
+	 				$('.regMessage').append("<div class='alert alert-success alert-dismissable'>"+
+	 				"<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"+
+	 				"Пользователь зарегистрирован!</div>");
+	            	$scope.Login='';
+	            	$scope.Password='';
+	            	$scope.Surname='';
+	            	$scope.Name='';
+	            	$scope.Birthday='';
+	            	$scope.Email='';
+	            });
+	            res.error(function(data, status, headers, config) {
+	   				$('.regMessage').append("<div class='alert alert-danger alert-dismissable'>"+
+	   				"<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
+	   				"Произошла ошибка! Пользователь не был зарегистрирован!</div>");
+	            });
+	            $("a[href='#reg']").click(function (){
+		            $('.regMessage').empty();
+		        });
+	    	}; 
+
+	//update user
+	   $scope.updUser = function(){ 
+	        	var role = document.getElementsByTagName("input").role.value;
+	        	console.log(role);
+	        	var Id = $("select option:selected").val();
+	        	var cls = "Users."+role;
+	        	var user = $("select option:selected").text();
+	        	var url = "http://localhost:57772/brs/form/object/"+cls+"/"+Id;
+	            var dataObj = {
+		  			_class : cls,
+	                Username : user,
+	                Name : $scope.Name,
+	                Surname : $scope.Surname
+	            }; 
+	            var res = $http.put(url, JSON.stringify(dataObj));
+	            res.success(function(data, status, headers, config) {
+	            var objId = data.Id;
+	 				$('.regMessage').append("<div class='alert alert-success alert-dismissable'>"+
+	 				"<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"+
+	 				"Пользователь изменен!</div>");
+	            	$scope.Login='';
+	            	$scope.Password='';
+	            	$scope.Surname='';
+	            	$scope.Name='';
+	            	$scope.Birthday='';
+	            	$scope.Email='';
+	            });
+	            res.error(function(data, status, headers, config) {
+	   				$('.regMessage').append("<div class='alert alert-danger alert-dismissable'>"+
+	   				"<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
+	   				"Произошла ошибка! Пользователь не был изменен!</div>");
+	            });
+	            $("a[href='#reg']").click(function (){
+		            $('.regMessage').empty();
+		        });
+	    	}; 
+	}
+
+	// Active rows in table realization
+	$(".grid").ready(function(){
+	$(".grid tbody").on("click", "tr", function(){
+		var that = $(this);
+	    var currentRow = that[0].cells[0].innerText;
+	    var Id = global["'"+currentRow+"'"];
+	    console.log(Id);
+	    localStorage.setItem('Id', Id);
+	    $(this).addClass('active').siblings().removeClass('active');	
+	});
+	});
+		
+		// delete button
+		function deleteData(){
+			var Id = localStorage.getItem("Id");
+			var $role = $("input[name='role']").val()
+			var cls = "Users."+$role;
+			var url = "http://localhost:57772/brs/form/object/"+cls+"/"+Id;
+			var data = {
+		  			_class : cls,
+	                id : Id
+	            }; 
+			var res = $.ajax({
+	  			method: "DELETE",
+	  			url: url,
+	  			data: JSON.stringify(data)
+			});
+			/*
+	  		res.success(function(data, status, headers, config) {
+	            var objId = data;
+	 				$('.regMessage').append("<div class='alert alert-success alert-dismissable'>"+
+	 				"<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"+
+	 				"Пользователь удален!</div>");
+	            });
+	        res.error(function(data, status, headers, config) {
+	   				$('.regMessage').append("<div class='alert alert-danger alert-dismissable'>"+
+	   				"<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
+	   				"Ошибка удаления пользователя!</div>");
+	            });
+	            */
+		}
+
+	/*
+	    // create button
+	    function createData(){
+		    window.location.href = "#reg";
+			$("#first").removeClass("active");
+			$("#second").addClass("active");
+		}
+		
+		// update button
+		function updateData(){
+			$("#first").removeClass("active");
+			$("#second").addClass("active");
+			//window.location.href = "#reg";
+		}
+	*/
+	</script>
+
+	</body>
+	</html>

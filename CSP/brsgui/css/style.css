@@ -1,0 +1,376 @@
+@charset "utf-8";
+/* CSS Document */
+
+	html{
+		font-family: Helvetica, sans-serif;
+	}
+
+	table{
+		width: 100%;
+	}
+	
+	table tr th, table tr th{
+		width: 25%;
+	}
+	
+	table tr th:hover {
+		cursor: pointer;
+	}
+	
+	table, tr, td, th {
+		border: 1px solid #d4d4d4;
+		border-collapse: collapse;
+		text-align: left;
+	}
+	
+
+	table tr:nth-child(odd){
+		background-color: #f5f5f5; /* #ededed , f5f5f5*/
+	}
+
+		
+	table tr td, table tr th{
+		padding: 8px;
+	}
+	
+	.container{
+		width: 80%;
+		margin: 30px auto;
+	}
+	
+	.asc, .desc {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            margin-top: 2px;
+            vertical-align: text-top;
+            font-style:normal;
+            font-family:"Glyphicons Halflings";
+	        font-size: 10px; 
+        }
+        
+        .asc:after{
+	        content:"\E113";
+	    }
+        
+        .desc:after{
+	        content:"\E114";
+	    }
+	    
+	.menu {
+		padding: 10px;
+		
+	}
+	.menu a{
+		padding: 4px;
+		border-radius: 2px;
+		border: 1px solid;
+		color: black;
+		text-decoration: none;
+	}
+	
+
+
+/* FIXED MENU */
+
+.fixed_scroll {
+	position: fixed !important;
+	top: 0 !important;
+	width: 96%;
+	min-width: 300px;
+	
+}
+
+/* FOOTER 
+
+hr p {
+	margin-top:-10px;
+	text-align: center;
+	font-size: 14px;
+}
+*/
+/* HEADER */
+
+.header {
+    display: inline-block;
+    width: 100%;
+    height: 140px;
+	margin-top: 3%;
+	margin-bottom: -25%;
+}
+
+.logo-hold {
+	display: inline-block;
+	width: 120px; /* otstup */
+	height: 110px;
+	position: absolute;
+	right: 50%;
+	margin-right: 2%;
+	
+}
+.vline{
+	left: 50%;
+	position: absolute;
+	display: inline-block;
+	width: 2px; 
+	height: 110px; 
+	background-color: #384ef2;
+}
+
+.head-txt {	
+	margin-top: -8px;
+	position: absolute;
+	display: inline-block;
+	width: 180px;
+	height: 110px;
+	left: 50%;
+	margin-left: 2.5%;
+}
+
+ul>li>a{white-space: nowrap;}
+
+.nav-responsive-collapse ul h5{
+	margin-left: 20px;
+	padding: 5px 0px 0px 0px;
+}
+
+.nav-responsive-collapse ul li:last-child{
+	padding: 5px 0px 0px 0px;
+}
+
+.nav-responsive-collapse ul  li  a.current{
+	border: 2px solid #c4e3f3;
+	color: black;
+}
+
+#h5_header{
+	line-height: normal;
+	font-size: 14px; /* 16 */
+	font-weight: normal;
+	padding-top: 8px;
+}
+
+#centered{
+	text-align: center;
+	font-size: 20px;
+	padding: 10px 0px;
+}
+
+input[placeholder="Имя пользователя"]{
+	min-width: 200px;
+	max-width: 250px;
+}
+
+/* ---------- GENERAL ---------- */
+
+/* body login style */
+.panel{
+	margin: 10px auto;
+	width: 50%;
+	max-width: 500px;
+	background: rgba(0, 0, 0, 0.0);	
+}
+
+fieldset {
+	border: none;
+	margin: 0;
+}
+
+input {
+	border: none;
+	font-family: inherit;
+	font-size: inherit;
+	margin: 0;
+	margin-left:-1px !important;
+	outline: none;
+	-webkit-appearance: none;
+}
+
+.clearfix { zoom: 1; }
+.clearfix:before, .clearfix:after {
+	content: "";
+	display: table;	
+}
+.clearfix:after { clear: both; }
+
+/* ---------- LOGIN-FORM ---------- */
+
+ #login-form {
+	margin: 50% auto 20% auto;
+	width: 300px;
+	display: inherit;
+
+}
+
+#login-form h1 {
+	background-color: #282836; 
+	border-radius: 5px 5px 0 0;
+	color: #fff;
+	font-size: 14px;
+	padding-top: 15px;
+	padding-bottom: 20px;
+	margin-bottom: -10px;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+#login-form fieldset {
+	background-color: #EFF1ED;
+	border-radius: 0 0 5px 5px;
+	padding: 20px;
+	position: relative;
+}
+
+#login-form fieldset:before {
+	background-color: #fff;
+	content: "";
+	height: 8px;
+	left: 50%;
+	margin: -4px 0 0 -4px;
+	position: absolute;
+	top: 0;
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	transform: rotate(45deg);
+	width: 8px;
+}
+
+#login-form input {
+	font-size: 14px;
+}
+
+#login-form input[type="login"]{
+		border: 1px solid #dcdcdc;
+		padding: 12px 10px;
+		width: 90%;
+		display: inline-block;
+	/*text-indent: 1.7em; */
+		background-color:#fff;
+		height: 40px;
+}
+	.user-id {
+			width: 15%;
+			border-radius: 2px;
+			margin-left:2px;
+	}
+
+#login-form input[type="password"] {
+	border: 1px solid #dcdcdc;
+	padding: 12px 10px;
+	width: 90%;
+	display: inline-block;
+	background-color:#fff;
+	margin-top:10px;
+	margin-left: 2px;
+	height: 40px;
+}
+	.password {
+			border-radius: 2px; 
+	}
+
+#login-form input[type="login"] {
+	border-radius: 3px 3px 0 0;
+}
+
+#login-form input[type="password"] {
+	border-top: none;
+	border-radius: 0px 0px 3px 3px;
+}
+	
+#login-form button[type="submit"] {
+	background: #5769EE; /*384ef2 828FF4 5A6CEE-good! */
+	border-radius: 3px;
+	color: #fff;
+	font-weight: bold;
+	margin-top: 10px;
+	cursor: pointer; 
+	margin-top: 20px;
+	margin-bottom: -10px;
+	padding: 6px 91px;
+}
+
+#login-form button[type="submit"]:hover { background: #384ef2; } /* #fb7434 */
+
+
+#login-form footer {
+	font-size: 12px;
+	margin-top: 17px;
+}
+
+.info-symbol {
+	background: #fff;
+	border-radius: 50%;
+	display: inline-block;
+	height: 20px;
+	line-height: 20px;
+	margin: 10px 10px 0 0;
+	text-align: center;
+	width: 20px;
+	color: #777;
+}
+
+#msg {
+	text-align: center;
+	margin-top: -15px;
+	margin-bottom: -5px;
+	font-size: 14px;
+	color: #EE2036;
+}
+
+#i {
+	display: inline-block;
+	font-size: 27px;
+	vertical-align: middle;
+	font-color: #282836;
+}
+
+/* NAV JUSTIFIED */
+.nav-tabs.nav-justified {
+  width: 100%;
+  border-bottom: 0;
+}
+.nav-tabs.nav-justified > li {
+  float: none;
+}
+.nav-tabs.nav-justified > li > a ,
+.nav-tabs.nav-justified > li > h5,
+.nav-tabs.nav-justified > li > div,
+.nav-tabs.nav-justified > li > form{
+  text-align: center;
+  margin-bottom: 0px;
+}
+.nav-tabs.nav-justified > .dropdown .dropdown-menu {
+  top: auto;
+  left: auto;
+}
+@media (min-width: 768px) {
+  .nav-tabs.nav-justified > li {
+    display: table-cell;
+    width: 1%;
+  }
+  .nav-tabs.nav-justified > li > a {
+    margin-bottom: 0;
+  }
+}
+.nav-tabs.nav-justified > li > a {
+  margin-right: 0;
+  border-radius: 4px;
+}
+.nav-tabs.nav-justified > .active > a,
+.nav-tabs.nav-justified > .active > a:hover,
+.nav-tabs.nav-justified > .active > a:focus {
+  border: 1px solid #dddddd;
+}
+@media (min-width: 768px) {
+  .nav-tabs.nav-justified > li > a {
+    border-bottom: 1px solid #dddddd;
+    border-radius: 4px 4px 0 0;
+  }
+  .nav-tabs.nav-justified > .active > a,
+  .nav-tabs.nav-justified > .active > a:hover,
+  .nav-tabs.nav-justified > .active > a:focus {
+    border-bottom-color: #ffffff;
+  }
+}

@@ -1,0 +1,215 @@
+	<html language="cache">
+	<head>
+	<title>	Страница преподавателя </title>
+		<link rel="stylesheet" type="text/css" href="/brsgui/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/brsgui/css/custom.css">
+		<link rel="stylesheet" type="text/css" href="/brsgui/css/font-awesome.min.css">
+	</head>
+	<body>	
+		<div class="container-fluid">
+			<input name="teacher" type="hidden" value="#($username)#"/>
+			
+	        <header class="ng-isolate-scope">
+	        	<nav class="navbar navbar-default">
+					<div class="navbar-header">
+						<a class="navbar-brand ng-binding">Страница преподавателя</a>
+					</div>
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li id="first" class="active"><a href="#faculties">Управление предметами и баллами</a></li>
+							<li id="second" class=""><a href="#("/brs/logout")#">Выйти</a></li>
+	      				</ul>
+	      				<h5 class="user-info">
+	 					Пользователь: <div style="display:inline;" id="user"></div><br>
+						</h5>
+	      			</div>
+	    	</header>
+	    		<div class="container">
+	    			<article><h3>Список предметов и баллов</h3></article>
+	    			<div class="regMessage"></div>
+	    				<section>
+                            <div id="confirm" class="modal fade" tabindex="-1" role="dialog" style="display: none;">
+  								<div class="modal-dialog modal-content">
+  								    <div class="modal-content">
+  								      	<div class="modal-header">
+  								        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+   								       		<h4 class="modal-title">Добавление баллов по предмету</h4>
+  								      	</div>
+   								     	<div class="modal-body">
+   								     		Нажмите "Подтвердить", чтобы сохранить изменения.<br>
+   								     	</div>
+   								     	<div class="modal-footer">
+    								    	<button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+   								       		<button onclick="doQuery();" data-dismiss="modal" type="button" class="btn btn-primary">Подтвердить</button>
+   								    	</div>
+   									</div>
+  								</div>
+  							</div>
+							<table id="brstable" style="font-size:small;" class="table table-hover table-striped table-bordered grid">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Предмет</th>
+										<th>Фамилия</th>
+										<th>Имя</th>
+										<th>Отчество</th>
+										<th>Учебный год</th>
+										<th>Семестр</th>
+				<!--.thead-->			<th class="thead" title="Посещаемость 1">П1 <i class="glyphicon glyphicon-info-sign"></i></th>
+										<th class="thead" title="Самостоятельная работа студента 1">СРС1 <i class="glyphicon glyphicon-info-sign"></th>
+										<th class="thead" title="Рубежный контроль 1">РК1 <i class="glyphicon glyphicon-info-sign"></th>
+										<th class="thead" title="Посещаемость 2">П2 <i class="glyphicon glyphicon-info-sign"></th>
+										<th class="thead" title="Самостоятельная работа студента 2">СРС2 <i class="glyphicon glyphicon-info-sign"></th>
+										<th class="thead" title="Рубежный контроль 2">РК2 <i class="glyphicon glyphicon-info-sign"></th>
+										<th>Итого</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+	        			</section>
+	    		</div>
+	    	</div>
+	    </div>
+	    
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="../js/lib/jquery.tabledit.min.js"></script>
+	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+	
+	$(function () {
+		// инициализировать все элементы на страницы, имеющих атрибут data-toggle="tooltip", как компоненты tooltip
+		$('[data-toggle="tooltip"]').tooltip()
+  	})
+	
+	function summarize(att1, att2, srs1, srs2, mctrl1, mctrl2){
+		var count=6;
+		if(att1==""){ att1=0; count--; }
+		if(srs1==""){ srs1=0; count--; }
+		if(mctrl1==""){	mctrl1=0; count--; }
+		if(att2==""){ att2=0; count--; }
+		if(srs2==""){ srs2=0; count--; }
+		if(mctrl2==""){	mctrl2=0; count--; }
+		console.log(att1, att2, srs1, srs2, mctrl1, mctrl2);
+		if (count==0) return "";
+		else return ((att1 + att2 + parseInt(srs1) + parseInt(srs2) + mctrl1 + mctrl2)/6).toFixed();
+	}
+	
+	   var $user = $('input[name="teacher"]').val();
+	   var url = "http://localhost:57772/brs/form/objects/Data.Mark/brs?filter=StudentSubject->SubjectSemester->Subjects->Teachers->Person->Username eq "+$user;
+		$.get(url)
+		.done(function(data){
+			$(".regMessage").empty();
+			var res = data.children;
+			localStorage.setItem('data',JSON.stringify(res));
+			console.log(res);		
+			$("#user").text(res[0].TName+" "+res[0].TSurname+" "+res[0].TPatronymic);
+			$.each(res,function(key,value){
+				$(".grid tbody").append(
+					"<tr>" +
+					"<td><input id type='hidden' value='"+ key +"'>" + value.ID +"</td>"+
+					"<td>"+ value.Subject +"</td>"+
+					"<td>"+ value.Surname +"</td>"+
+					"<td>"+ value.Name +"</td>"+
+					"<td>"+ value.Patronymic +"</td>"+
+					"<td>"+ value.AcademicYear +"</td>"+
+					"<td>"+ value.Semester +"</td>"+
+					"<td>"+ value.Attendance1 +"</td>"+
+					"<td>"+ value.SRS1 +"</td>"+
+					"<td>"+ value.ModalControl1 +"</td>"+
+					"<td>"+ value.Attendance2 +"</td>"+
+					"<td>"+ value.SRS2 +"</td>"+
+					"<td>"+ value.ModalControl2 +"</td>"+
+					"<td>" + summarize(value.Attendance1,value.Attendance2,value.SRS1,value.SRS2,value.ModalControl1,value.ModalControl2) + "</td>" + 
+					"</tr>"
+				);
+			});
+		})
+		.fail(function(){
+			$(".regMessage").append('Нет данных для отображения.')
+		})
+	
+	
+	// Active rows in table realization
+	
+	$(".grid").ready(function(){
+		$(".grid").Tabledit({
+			deleteButton: false,
+    		columns: {
+        		identifier: [0, 'id'],
+        		editable: [[7, 'attendance1'], [8, 'srs11'], [9, 'modalcontrol1'], 
+        		[10, 'attendance2'], [11, 'srs2'], [12, 'modalcontrol2']]
+    		}
+		});
+		
+		$(".grid tbody").on("click", "tr", function(){
+			var that = $(this);
+			
+			localStorage.setItem('row',that["0"].rowIndex);
+			// Object ID, not table!
+			var id = that["0"].cells["0"].childNodes["0"].innerText;
+			localStorage.setItem('id',id);
+	    	$(this).addClass('active').siblings().removeClass('active');	
+		});
+	
+	});
+	
+	function apply(){
+		var row = localStorage.getItem('row');
+		//var that = $(".grid tbody").find('td.tabledit-view-mode');
+		//var that = $(".grid tbody").find('tr:nth-child('+ row +')');
+		var that = $(".grid tbody tr:nth-child("+ row +")").find('td');
+		var marks = new Array();
+		for (var i = 7; i < 13; i++){
+			/*
+			if(that[i].children[1].value.toString() == ""){
+				marks[i-6] = "0";
+			}
+			
+			else{
+				*/
+				marks[i-7] = that[i].children[1].value;
+			//}
+		}
+		localStorage.setItem('marks', JSON.stringify(marks));
+		$("#confirm").modal('show');
+	}
+	
+	function doQuery(){
+		
+		var data = JSON.parse(localStorage.getItem('data'));
+		var mId = localStorage.getItem('id');
+		var studsubjId = data[mId-1].StudSubjID;
+		var marks = JSON.parse(localStorage.getItem('marks'));
+		console.log(marks);
+		var dataObj = {
+			_class: "Data.Mark",
+			Attendance1:marks[0],
+			SRS1:marks[1],
+			ModalControl1:marks[2],
+			Attendance2:marks[3],
+			SRS2:marks[4],
+			ModalControl2:marks[5],
+		}	
+		console.log(JSON.stringify(dataObj));
+		url = "http://localhost:57772/brs/form/object/Data.Mark/"+mId;
+		
+		var settings = {
+  			"async": true,
+   			"crossDomain": true,
+   			"url": url,
+   			"method": "PUT",
+   			"headers": {
+     			"content-type":"application/json; charset=UTF-8"
+   			},
+   			"data": JSON.stringify(dataObj)
+ 			}
+
+ 			$.ajax(settings).done(function (response) {
+   				console.log(response);
+ 			});
+	 	}
+	</script>
+
+	</body>
+	</html>

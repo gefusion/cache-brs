@@ -1,0 +1,343 @@
+	<html>
+	<head>
+	<title>	Страница администратора </title>
+		<link rel="stylesheet" type="text/css" href="/brsgui/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/brsgui/css/custom.css">
+		<link rel="stylesheet" type="text/css" href="/brsgui/css/font-awesome.min.css">
+	</head>
+	<body ng-controller="ctrl">
+		<div class="container-fluid">
+			<input ng-model="student" name="student" type="hidden" value="Users.Student"/>
+			<input ng-model="group" name="group" type="hidden" value="Data.Group"/>
+			
+	        <header class="ng-isolate-scope">
+	        	<nav class="navbar navbar-default">
+					<div class="navbar-header">
+						<a class="navbar-brand ng-binding">Страница куратора</a>
+					</div>
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav"> 
+							<li class="active"><a  data-toggle="tab" href="#studentsList">Управление списком группы</a></li>
+							<!--<li><a data-toggle="tab" href="#academicYearsList">Просмотр баллов группы</a></li>-->
+							<li><a href="#("/brs/logout")#">Выйти</a></li>
+	      				</ul>
+	      				<h5 class="user-info">
+	      				<input type="hidden" id="username" value="#($username)#">
+	 					Пользователь: <div id="user"></div><br>
+						</h5>
+	      			</div>
+	    	</header>
+	    	<div class="tab-content">
+	    		<div id="studentsList" class="tab-pane fade in active container"> 
+	    			<article><h3 id="studTitle">Список студентов</h3></article>
+	    			<div class="regMessage"></div>
+	    				<p ng-show="data.length == 0">Нет данных для отображения</p>
+	    				<section ng-hide="data.length == 0">
+	            			<ui-grid source="students">
+	            				<!--<column name="ID" title="ID" sortable="true"></column>-->
+	                			<column name="Name" title="Имя" sortable="true"></column>
+	                			<column name="Surname" title="Фамилия" sortable="true"></column>
+	                			<column name="Patronymic" title="Отчество" sortable="true"></column>
+	                			<column name="Group" title="Группа" sortable="true"></column>
+	            			</ui-grid>
+	            			<div class="btn-group">
+                    			<a ng-click="regStudent=true; updStudent=false;" href="#studentModal" data-toggle="modal" id="regStudent" class="btn space btn-success btn-create">+</a>
+                    			<a ng-click="regStudent=false; updStudent=true;" href="#studentModal" data-toggle="modal" id="updStudent" class="btn space btn-primary disabled" ><i class="glyphicon glyphicon-pencil btn-edit"></i></a>
+                    			<a data-toggle="modal" id="deleteFaculty" class="btn space btn-danger disabled" ><i class="glyphicon glyphicon-trash"></i></a>
+                    		</div>
+	        			</section>
+	    		</div>
+	    	</div>
+	    	<div ng-controller="Forms" class="container">  	
+	    			<!-- dWorkers edit/create -->
+	    			<section>
+	    			<div id="studentModal" class="modal fade">
+  	  	  	  	  	  	<div class="modal-dialog">
+  	  	  	  	  	  	  	<div class="modal-content">
+  	  	  	  	  	  	  	  	<!-- Заголовок модального окна -->
+  	  	  	  	  	  	  	  	<div class="modal-header">
+  	  	  	  	  	  	  	  	  	<button type="button" ng-click="" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  	  	  	  	  	  	  	  	  	<h4 ng-show="regStudent">Регистрация нового сотрудника деканата</h4>
+  	  	  	  	  	  	  	  	    <h4 ng-show="updStudent">Редактирование сотрудника деканата</h4>
+  	  	  	  	  	  	  	    </div>
+   	  	  	  	  	  	  	    <!-- Основное содержимое модального окна -->
+     							<div class="modal-body">
+						<div class="container">
+	    					<div class="regMessage"></div>
+	    						<form class="form-horizontal" method="post" role="form">
+	    							<div class="form-group">
+	            						<label class="control-label col-sm-2">Имя</label>
+	            						<div class="col-sm-5">
+	                						<input type="text" class="form-control form-control1 item0"/>
+	            						</div>
+	        						</div>
+	    							<div class="form-group">
+	            						<label class="control-label col-sm-2">Фамилия</label>
+	            						<div class="col-sm-5">
+	             		   					<input type="text" class="form-control form-control1 item1"/>
+	            						</div>
+	        						</div>
+	        						<div class="form-group">
+	            						<label class="control-label col-sm-2">Отчество</label>
+	            						<div class="col-sm-5">
+	             		   					<input type="text" class="form-control form-control1 item2"/>
+	            						</div>
+	        						</div>
+	        						<div class="form-group">
+	            						<label class="control-label col-sm-2">Группа</label>
+	            						<div class="col-sm-5">
+	            							<input type="text" class="form-control form-control1 item3"/>
+	                    					<!--<select class="item1" name="userist">
+	                    					</select>
+	                    					-->
+	            						</div>
+	        						</div>
+	       	 						<div ng-show="regStudent" class="form-group">
+	            						<label class="control-label col-sm-2">Имя пользователя</label>
+	            						<div class="col-sm-5">
+	                    					<input type="text" class="form-control form-control1 item4"/>
+	            						</div>
+	        						</div>
+	        						<div ng-show="regDW" class="form-group">
+	            						<label class="control-label col-sm-2">Пароль</label>
+	            						<div class="col-sm-5">
+	                    					<input type="password" class="form-control form-control1"/>
+	            						</div>
+	        						</div>
+	        						<!-- !!! -->
+	        						<div ng-show="select" class="form-group">
+	            						<label class="control-label col-sm-2">
+	            						Имя изменяемого пользователя</label>
+	            						<div class="col-sm-5">
+	                    					<select class="item6" name="DWList">
+	                    					</select>
+	            						</div>
+	        						</div>
+	    						</form>
+						</div>
+						</div>
+      			<!-- Футер модального окна -->
+      			<div class="modal-footer">
+					<input ng-click="regStudent()" type="submit" ng-show="regStudent" class="btn btn-success" value="Создать">
+	    			<input ng-click="updStudent()" type="submit" ng-show="updStudent" class="btn btn-primary" value="Изменить">
+        			<button type="button" ng-click="" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+      			</div>
+    			</div>
+  			</div>
+			</div>
+	    	</section>  
+	    		</div>
+	    	</div>
+	    </div>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
+	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/brsgui/js/ui-source.js"></script>
+	<script type="text/javascript" src="/brsgui/js/ui-grid.js"></script>
+	<script type="text/javascript">
+	// Setting ng-app and adding table realization
+	angular.element(document).ready(function() {
+	            angular.bootstrap(document, ['UiGridModule', 'UiSourceModule']);
+	        });
+	// Main controller init
+	function ctrl($scope,$http) {
+		var $user = $("#username").val();
+		console.log($user);
+		var url = "http://localhost:57772/brs/form/objects/";
+		$http.get(url + "Users.Curator/curator?filter=Person->Username eq "+ $user)
+		.success(function(data){
+			$("#user").append(data.children["0"].Name+" "+data.children["0"].Surname+" "+data.children["0"].Patronymic);
+			$("#studTitle").append(" группы "+data.children["0"].Title);
+		});
+		/*
+	   var cls = document.getElementsByTagName("input").group.value;
+	   
+	   $http.get(url + cls + "/faculties")
+	   .success(function(data) {
+	        $scope.faculties = data.children;
+	        console.log("faculties");
+	        console.log($scope.faculties);
+	   }).error(function(data, status) {
+	       alert("["+status+"]   Ошибка при загрузки пользователей!["+data+"]");
+	   });
+	   */
+	   cls = document.getElementsByTagName("input").student.value;
+	   
+	   $http.get(url + cls + "/grouplist?filter=Group->Curator->Person->Username eq " + $user) //filter=Group->Title eq 422")
+	   .success(function(data) {
+	        $scope.students = data.children;
+	        console.log("students");
+	        console.log($scope.students);
+	   }).error(function(data, status) {
+	       alert("["+status+"]   Ошибка при загрузки пользователей!["+data+"]");
+	   });
+	}
+	
+	// Active rows in table realization. Disabled buttons realization. <- Has issue, need to fix then.
+	$(".grid").ready(function(){
+	$(".grid tbody").on("click", "tr", function(){
+		var that = $(this);
+	    var rowCount = that[0].cells.length;
+	    // очистка хранилища
+	    localStorage.clear();
+	    // захват данных активной строки 
+	    for(var i = 0;i<rowCount;i++)
+	    {
+		    localStorage.setItem("item"+i,that[0].cells[i].innerText);
+		}
+	    console.log("item1: "+localStorage.getItem('item0'));
+	    
+	    $(this).addClass('active').siblings().removeClass('active');
+	    
+	    $(".btn-primary").removeClass('disabled');
+	    $(".btn-danger").removeClass('disabled');
+	    $("li").click(function(){
+		    $(".btn-primary").addClass('disabled');
+	    	$(".btn-danger").addClass('disabled');
+		});
+	});
+	
+	$(".btn-primary").click(function (){
+		// если инпуты названы itemN, где N-число
+		var i=0;
+		while(localStorage.getItem("item"+i) != null)
+		{
+			$(".item"+i).val(localStorage.getItem("item"+i));		
+			i++;
+		}
+		/*
+		$('.in').each(function(index){
+			$(this).find("input");
+			console.log($(this).find("input"));
+		});
+		//$(".in").find("input").append('here');
+		*/
+	})
+	
+	});
+	
+	// Creating new user
+	function Forms($scope, $http) {
+		
+	   $scope.regUser = function(){ 
+	        	var role = document.getElementsByTagName("input").role.value;
+	        	console.log(role);
+	        	var cls = "Users.Person";
+	        	var url = "http://localhost:57772/brs/form/object/"+cls;
+	            var dataObj = {
+		  			_class : cls,
+	                Username : $scope.Username,
+	                Name : $scope.Name,
+	                Surname : $scope.Surname
+	            }; 
+	            var res = $http.post(url, JSON.stringify(dataObj));
+	            res.success(function(data, status, headers, config) {
+	            var objId = data.Id;
+	 				$('.regMessage').append("<div class='alert alert-success alert-dismissable'>"+
+	 				"<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"+
+	 				"Пользователь зарегистрирован!</div>");
+	            	$scope.Login='';
+	            	$scope.Password='';
+	            	$scope.Surname='';
+	            	$scope.Name='';
+	            	$scope.Birthday='';
+	            	$scope.Email='';
+	            });
+	            res.error(function(data, status, headers, config) {
+	   				$('.regMessage').append("<div class='alert alert-danger alert-dismissable'>"+
+	   				"<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
+	   				"Произошла ошибка! Пользователь не был зарегистрирован!</div>");
+	            });
+	            $("a[href='#reg']").click(function (){
+		            $('.regMessage').empty();
+		        });
+	    	}; 
+
+	//update user
+	   $scope.updUser = function(){ 
+	        	var role = document.getElementsByTagName("input").role.value;
+	        	console.log(role);
+	        	var Id = $("select option:selected").val();
+	        	var cls = "Users."+role;
+	        	var user = $("select option:selected").text();
+	        	var url = "http://localhost:57772/brs/form/object/"+cls+"/"+Id;
+	            var dataObj = {
+		  			_class : cls,
+	                Username : user,
+	                Name : $scope.Name,
+	                Surname : $scope.Surname
+	            }; 
+	            var res = $http.put(url, JSON.stringify(dataObj));
+	            res.success(function(data, status, headers, config) {
+	            var objId = data.Id;
+	 				$('.regMessage').append("<div class='alert alert-success alert-dismissable'>"+
+	 				"<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"+
+	 				"Пользователь изменен!</div>");
+	            	$scope.Login='';
+	            	$scope.Password='';
+	            	$scope.Surname='';
+	            	$scope.Name='';
+	            	$scope.Birthday='';
+	            	$scope.Email='';
+	            });
+	            res.error(function(data, status, headers, config) {
+	   				$('.regMessage').append("<div class='alert alert-danger alert-dismissable'>"+
+	   				"<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
+	   				"Произошла ошибка! Пользователь не был изменен!</div>");
+	            });
+	            $("a[href='#reg']").click(function (){
+		            $('.regMessage').empty();
+		        });
+	    	}; 
+	}
+
+
+		// delete button
+		function deleteData(){
+			var Id = localStorage.getItem("Id");
+			var $role = $("input[name='role']").val()
+			var cls = "Users."+$role;
+			var url = "http://localhost:57772/brs/form/object/"+cls+"/"+Id;
+			var data = {
+		  			_class : cls,
+	                id : Id
+	            }; 
+			var res = $.ajax({
+	  			method: "DELETE",
+	  			url: url,
+	  			data: JSON.stringify(data)
+			});
+			/*
+	  		res.success(function(data, status, headers, config) {
+	            var objId = data;
+	 				$('.regMessage').append("<div class='alert alert-success alert-dismissable'>"+
+	 				"<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"+
+	 				"Пользователь удален!</div>");
+	            });
+	        res.error(function(data, status, headers, config) {
+	   				$('.regMessage').append("<div class='alert alert-danger alert-dismissable'>"+
+	   				"<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
+	   				"Ошибка удаления пользователя!</div>");
+	            });
+	            */
+		}
+
+	/*
+	    // create button
+	    function createData(){
+		    window.location.href = "#reg";
+			$("#first").removeClass("active");
+			$("#second").addClass("active");
+		}
+		
+		// update button
+		function updateData(){
+			$("#first").removeClass("active");
+			$("#second").addClass("active");
+			//window.location.href = "#reg";
+		}
+	*/
+	</script>
+
+	</body>
+	</html>

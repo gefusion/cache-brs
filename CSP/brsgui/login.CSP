@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>	Авторизация </title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#33BEE5">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="/brsgui/css/style.css">
+<link href="http://localhost:57772/brsgui/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+</head>
+<body class="panel"> 
+	<div class="header">
+		<div class="logo-hold">
+			<img src="/brsgui/img/ngpul.png" width="120" height="100">
+		</div>
+		<div class="vline"></div>
+		<div class="head-txt">
+			<h5 id="h5_header">
+				<b style="font-size: 20px; padding-top: 15px;">Your Rating <span style="font-size:small;">v0.6</span></b><br><br>
+				<span>Балльно-рейтинговая система, разработанная специально для НГПУ</span>
+			</h5>
+		</div>
+	</div>
+
+    <div id="login-form">
+        <h1>Авторизация на сайте</h1>
+        <fieldset>
+			<form id="loginForm" name="loginForm" method="post" action="#("/brs/login")#">
+			<center>
+				<input name="CacheLogin" value="1" type="hidden">
+				<i id="i" class="fa fa-user"></i>
+				<input name="CacheUserName" type="login" placeholder="Имя пользователя" class="user-id" required autofocus>
+				<i id="i" class="fa fa-lock"></i>
+				<input name="CachePassword" type="password"  placeholder="Пароль" class="password" requred>
+				<button name="Submit" type="submit" class="btn btn-small btn-primary">ВОЙТИ</button>
+			</center>
+			</form>
+		</fieldset>
+	</div>
+	<hr>
+	<p style="margin-top:-10px;
+		text-align: center;
+		font-size: 14px;"> 
+		© Your Rating 2017-2018 г.
+	</p>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
+	<script type="text/javascript">
+	
+	</script>
+</body>
+</html>

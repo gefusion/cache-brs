@@ -1,0 +1,71 @@
+<html>
+<head>
+
+<!-- Put your page Title here -->
+<title>	Страница перенаправления </title>
+<link rel="stylesheet" type="text/css" href="/brsgui/css/bootstrap.css">
+</head>
+
+<body>
+<div class="container">
+<div style="width: 50%; margin: 40px auto;">
+<h4>Выберите роль для входа:</h4>
+
+<div class="list-group">
+<!--
+  <a href="#" class="list-group-item active">
+    Cras justo odio
+  </a>
+-->
+  
+<script language="Cache" runat="Server">
+set roles = $LISTFROMSTRING($roles)
+</script>
+
+<csp:loop counter="counter" from="3" to="#($listlength(roles))#"> 
+<a href="#" class="list-group-item list-group-item-action item#(counter-2)#">
+<CSP:IF CONDITION='$listget(roles,counter)="Curator"'>
+Куратор
+<input type="hidden" value="Curator">
+<CSP:ELSEIF CONDITION='$listget(roles,counter)="Administrator"'>
+Администратор
+<input type="hidden" value="Administrator">
+<CSP:ELSEIF CONDITION='$listget(roles,counter)="Teacher"'>
+Преподаватель
+<input type="hidden" value="Teacher">
+<CSP:ELSEIF CONDITION='$listget(roles,counter)="DeaneryWorker"'>
+Сотрудник деканата
+<input type="hidden" value="DeaneryWorker">
+<CSP:ELSEIF CONDITION='$listget(roles,counter)="ChairWorker"'>
+Сотрудник кафедры
+<input type="hidden" value="ChairWorker">
+<CSP:ELSEIF CONDITION='$listget(roles,counter)="Student"'>
+Студент
+<input type="hidden" value="Student">
+</CSP:IF>
+</a>
+</csp:loop>
+</div>
+</div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script language="javascript">
+$('document').ready(function(){
+	$('a').click(function(){
+		var role = $(this).find("input[type='hidden']").val();
+		switch(role){
+			case "Curator": window.location = "/brsgui/users/curator.CSP"; break;
+			case "Administrator": window.location = "/brsgui/users/admin.CSP"; break;
+			case "Teacher": window.location = "/brsgui/users/teacher.CSP"; break;
+			case "DeaneryWorker": window.location = "/brsgui/users/deaneryWorker.CSP"; break;
+			case "ChairWorker": window.location = "/brsgui/users/chairWorker.CSP"; break;
+			case "Student": window.location = "/brsgui/users/student.CSP"; break;
+			default: "Error"
+		}
+	});
+});
+</script>
+</body>
+
+</html>
