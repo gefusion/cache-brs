@@ -145,6 +145,7 @@
                     });
                     // стоит использовать ранее объявленную или локальную переменную? 
                     st = createObject(data, target);
+                    console.log('sysUserState: '+st);
                     // статус как 200/500 или 1/0 ? конвертация статуса?
                     if (st=="1"){
                         cls = "Users.Person";
@@ -157,10 +158,9 @@
                             FullName: $("#personModal #Surname").val()+" "+ $("#personModal #Name").val().substr(0,1)+"."+$("#personModal #Patronymic").val().substr(0,1)+"."
                         });
                         st = createObject(data, cls, id);
-                        checkState(st);
+                        
                     }
-                
-                // TODO: create Users.Person
+                    
                 }
             }
             else{
@@ -194,11 +194,14 @@
                 "data": data,
                 "processData": false,
                 "statusCode": {
-                    "500": localStorage.setItem("status", "0"),
-                    "200": localStorage.setItem("status", "1")
+                    "500": function(){ localStorage.setItem("status", "0") },
+                    "200": function(){ localStorage.setItem("status", "1") }
                 }
             });
-            var status = localStorage.getItem("status"); 
+            console.log(result.status);
+            console.log(localStorage.getItem("status"));
+            var status = localStorage.getItem("status");
+            console.log(status);
             return status;
         }
         
@@ -461,14 +464,14 @@
         })
     }
     
-    // getting data of logged user
+    // getting data of logged user. 03.04 'contains' вместо 'eq' - костыль, ибо с eq перестал находить username. 
     var $thisUser = $(".user-info h5 span").text();
     $.ajax({
         "headers": {
             "Content-Type": "application/json"
         },
         "method": "GET",
-        "url": "http://localhost:57772/brs/form/objects/Users.Person/all?filter=Username eq "+$thisUser,
+        "url": "http://localhost:57772/brs/form/objects/Users.Person/all?filter=Username contains "+$thisUser,
         "statusCode": {
             "200": function(data) {
                 console.log(data.children);

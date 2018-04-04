@@ -1,4 +1,4 @@
-/// Updated at 03/31/2018 16:29:13
+/// Updated at 04/04/2018 08:55:16
 Class Form.REST.Object Extends Form.REST.Abstract
 {
 
@@ -9,6 +9,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 <Routes>
 <Route Url="/:form/:id" Method="GET" Call="getFormObject"/>
 <Route Url="/:form/:id/:property" Method="GET" Call="getFormObjectProperty"/>
+<Route Url="/validate" Method="POST" Call="validatePassword"/>
 <Route Url="/createSystemUser" Method="POST" Call="createSystemUser"/>
 <Route Url="/:form" Method="POST" Call="createFormObject"/>
 <Route Url="/editSystemUser/:username" Method="PUT" Call="editSystemUser"/>
@@ -57,6 +58,19 @@ ClassMethod getFormObjectProperty(class As %String = "", id As %Integer = "", pr
 	return sc
 }
 
+ClassMethod validatePassword() As %Status
+{
+	#dim sc As %Status = $$$OK
+	set obj = %request.Content
+	new $namespace
+	s $namespace = "%SYS"
+	s pass = obj.Password
+	s sc = ##class(%SYSTEM.Security).ValidatePassword(pass)
+	w sc
+	s $namespace = "BRS"
+	return sc
+}
+
 ClassMethod createSystemUser() As %Status
 {
 	#dim sc As %Status = $$$OK
@@ -71,7 +85,7 @@ ClassMethod createSystemUser() As %Status
 		return sc
 	}
 	else
-	{
+	{	
 		return sc
 	}
 }

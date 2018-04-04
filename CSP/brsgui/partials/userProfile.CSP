@@ -5,9 +5,50 @@
 		    				Пользователь: <span>#($username)#</span>
 		    			</h5>
 		    			<span></span>
-		    			<button data-toggle="modal" data-target="#personModal" class="btn btn-default">Редактировать личные данные</a>
-		    			<button class="btn btn-default">Сменить пароль</button>
+		    			<button data-toggle="modal" ng-click="updPerson=true" data-target="#personModal" class="btn btn-default">Редактировать личные данные</a>
+		    			<button class="btn btn-default" data-toggle="modal" data-target="#changePassword">Сменить пароль</button>
 		    			<p><br>Вы можете перезайти под другой ролью, нажав на кнопку ниже.</p>
 		    			<button class="btn btn-default">Перезайти</button>
+		    			<section>
+				    		<div id="changePassword" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+		  	  	  	  	  	  	<div class="modal-dialog">
+		  	  	  	  	  	  	  	<div class="modal-content">
+		  	  	  	  	  	  	  	  	<div class="modal-header">
+		  	  	  	  	  	  	  	  	  	<button type="button" onclick="clearForm();" ng-click="" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		  	  	  	  	  	  	  	  	    <h4 >Редактирование пользователя</h4>
+		  	  	  	  	  	  	  	    </div>
+		     							<div class="container">
+											<div class="modal-body">
+						    					<div class="regMessage"></div>
+					    						<form class="form-horizontal" method="post" role="form">
+					    							<div class="form-group">
+					            						<label class="control-label col-sm-2">Старый пароль</label>
+					            						<div class="col-sm-5">
+					                    					<input type="password" class="form-control password" required/>
+					            						</div>
+					        						</div>
+					        						<div class="form-group">
+					            						<label class="control-label col-sm-2">Новый пароль</label>
+					            						<div class="col-sm-5">
+					                    					<input type="password" class="form-control password" required/>
+					            						</div>
+					        						</div>
+					        						<div class="form-group">
+					            						<label class="control-label col-sm-2">Подтвердите новый пароль</label>
+					            						<div class="col-sm-5">
+					                    					<input type="password" class="form-control password-confirm" required/>
+					            						</div>
+					        						</div>
+					    						</form>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<input ng-click="" type="submit" class="btn btn-primary" value="Сменить пароль">
+						        			<button type="button" onclick="clearForm();" ng-click="" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+		        						</div>
+		        					</div>
+		        				</div>
+			        		</div>
+			        	</section>
 		    		</div>
 	    		</div>
